@@ -1,0 +1,11 @@
+{
+  "name": "javascript-chat-app",
+  "version": "1.0.0",
+  "description": "Real-time Chat Application",
+  "main": "index.js",
+  "author": "Gabriel Demetrios Lafis",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
