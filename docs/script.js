@@ -1,10 +1,3 @@
-document.addEventListener('DOMContentLoaded', function() {
-    fetch('../README.md')
-        .then(response => response.text())
-        .then(markdown => {
-            const converter = new showdown.Converter();
-            const html = converter.makeHtml(markdown);
-            document.getElementById('content').innerHTML = html;
-        })
-        .catch(error => console.error('Error fetching README.md:', error));
-});
+// Este script não é mais necessário para carregar o README.md, pois a página principal foi atualizada.
+// A demonstração interativa agora está em app.html e não precisa deste script para o README.
+

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript-Chat-App - Demonstração</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            flex-grow: 1;
+        }
+        .chat-header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.2em;
+            border-bottom: 1px solid #0056b3;
+        }
+        .chat-messages {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #e9ecef;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+        .message.sent {
+            background-color: #dcf8c6;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        .message.received {
+            background-color: #fff;
+            align-self: flex-start;
+            margin-right: auto;
+            border: 1px solid #ced4da;
+        }
+        .chat-input {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #dee2e6;
+            background-color: #f8f9fa;
+        }
+        .chat-input input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 20px;
+            margin-right: 10px;
+            font-size: 1em;
+        }
+        .chat-input button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+        .chat-input button:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            JavaScript-Chat-App - Demonstração
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <!-- Messages will be appended here -->
+            <div class="message received">Olá! Bem-vindo à demonstração do JavaScript-Chat-App.</div>
+            <div class="message sent">Oi! Que legal!</div>
+            <div class="message received">Você pode digitar uma mensagem abaixo e enviá-la.</div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="messageInput" placeholder="Digite sua mensagem...">
+            <button id="sendMessage">Enviar</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Gabriel Demetrios Lafis. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const chatMessages = document.getElementById("chatMessages");
+            const messageInput = document.getElementById("messageInput");
+            const sendMessageButton = document.getElementById("sendMessage");
+
+            sendMessageButton.addEventListener("click", () => {
+                const messageText = messageInput.value.trim();
+                if (messageText !== "") {
+                    appendMessage(messageText, "sent");
+                    messageInput.value = "";
+                    // Simulate a response after a short delay
+                    setTimeout(() => {
+                        appendMessage("Mensagem recebida: \"" + messageText + "\"", "received");
+                    }, 1000);
+                }
+            });
+
+            messageInput.addEventListener("keypress", (e) => {
+                if (e.key === "Enter") {
+                    sendMessageButton.click();
+                }
+            });
+
+            function appendMessage(text, type) {
+                const messageDiv = document.createElement("div");
+                messageDiv.classList.add("message", type);
+                messageDiv.textContent = text;
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to bottom
+            }
+        });
+    </script>
+</body>
+</html>
