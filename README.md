@@ -1,107 +1,144 @@
-# 🚀 Javascript Chat App
+# JavaScript Chat App
 
-> Professional JavaScript-Chat-App - Created by Gabriel Demetrios Lafis
+Real-time chat application built with Node.js, Express, and Socket.IO featuring WebSocket communication, room management, and message history.
 
-[![HTML5](https://img.shields.io/badge/HTML5-5-E34F26.svg)](https://img.shields.io/badge/)
-[![Express.js](https://img.shields.io/badge/Express.js-4-000000.svg)](https://img.shields.io/badge/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
-[English](#english) | [Português](#português)
+[English](#english) | [Portugues](#portugues)
 
 ---
 
 ## English
 
-### 🎯 Overview
+### Overview
 
-**Javascript Chat App** is a production-grade HTML application complemented by CSS, JavaScript that showcases modern software engineering practices including clean architecture, comprehensive testing, containerized deployment, and CI/CD readiness.
+A real-time chat application that provides instant messaging through WebSocket connections. Features include multi-room support, user session management, message persistence, typing indicators, and a REST API for room and user querying.
 
-The codebase comprises **522 lines** of source code organized across **6 modules**, following industry best practices for maintainability, scalability, and code quality.
-
-### ✨ Key Features
-
-- **📐 Clean Architecture**: Modular design with clear separation of concerns
-- **🧪 Test Coverage**: Unit and integration tests for reliability
-- **📚 Documentation**: Comprehensive inline documentation and examples
-- **🔧 Configuration**: Environment-based configuration management
-
-### 🏗️ Architecture
+### Architecture
 
 ```mermaid
 graph TB
-    subgraph Client["🖥️ Client Layer"]
-        A[Web Client]
-        B[API Documentation]
+    subgraph Client Layer
+        A[Web Browser]
+        B[Socket.IO Client]
     end
-    
-    subgraph API["⚡ API Layer"]
-        C[Middleware Pipeline]
-        D[Route Handlers]
-        E[Business Logic]
+
+    subgraph Server Layer
+        C[Express.js HTTP Server]
+        D[Socket.IO WebSocket Server]
+        E[REST API Routes]
     end
-    
-    subgraph Data["💾 Data Layer"]
-        F[(Primary Database)]
-        G[Cache]
+
+    subgraph Business Logic
+        F[ChatRoomManager]
+        G[UserSessionManager]
     end
-    
-    A --> C
-    B --> C
-    C --> D --> E
+
+    subgraph Data Store
+        H[Room Registry]
+        I[User Sessions]
+        J[Message History]
+    end
+
+    A --> B
+    B -->|WebSocket| D
+    A -->|HTTP| C
+    C --> E
+    D --> F
+    D --> G
     E --> F
     E --> G
-    
-    style Client fill:#e1f5fe
-    style API fill:#f3e5f5
-    style Data fill:#fff3e0
+    F --> H
+    F --> J
+    G --> I
+
+    style Client Layer fill:#e1f5fe
+    style Server Layer fill:#f3e5f5
+    style Business Logic fill:#e8f5e9
+    style Data Store fill:#fff3e0
 ```
 
-### 🚀 Quick Start
+### Features
+
+- WebSocket-based real-time messaging with Socket.IO
+- Multi-room chat support with room creation
+- User registration and session management
+- Message history with configurable buffer size
+- Typing indicators for active users
+- REST API for room listing, user querying, and message retrieval
+- Health check endpoint for monitoring
+- CORS configuration support
+
+### Quick Start
 
 #### Prerequisites
+
+- Node.js 18+
+- npm
 
 #### Installation
 
 ```bash
 git clone https://github.com/galafis/JavaScript-Chat-App.git
 cd JavaScript-Chat-App
+npm install
 ```
 
-### 📁 Project Structure
+#### Running
+
+```bash
+# Development
+npm run dev
+
+# Production
+npm start
+```
+
+### API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /api/health | Server health check |
+| GET | /api/rooms | List all chat rooms |
+| GET | /api/users | List online users |
+| GET | /api/rooms/:id/messages | Get room message history |
+
+### WebSocket Events
+
+| Event | Direction | Description |
+|-------|-----------|-------------|
+| register | Client -> Server | Register username |
+| join_room | Client -> Server | Join a chat room |
+| send_message | Client -> Server | Send message to room |
+| typing | Client -> Server | Typing indicator |
+| new_message | Server -> Client | Broadcast new message |
+| user_joined | Server -> Client | User joined notification |
+| user_left | Server -> Client | User left notification |
+
+### Project Structure
 
 ```
 JavaScript-Chat-App/
-├── docs/          # Documentation
-│   └── script.js
-├── LICENSE
-├── README.md
-├── index.js
-└── package.json
+├── index.js           # Main server with WebSocket handling
+├── index.html         # Landing page
+├── public/            # Static assets
+├── docs/              # Documentation
+├── examples/          # Usage examples
+├── package.json
+└── README.md
 ```
 
-### 🛠️ Tech Stack
+### Tech Stack
 
-| Technology | Description | Role |
-|------------|-------------|------|
-| **HTML** | Core Language | Primary |
-| JavaScript | 2 files | Supporting |
-| CSS | 1 files | Supporting |
+| Technology | Purpose |
+|------------|---------|
+| Node.js | Runtime environment |
+| Express.js | HTTP server framework |
+| Socket.IO | WebSocket communication |
 
-### 🤝 Contributing
+### License
 
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+MIT License - see [LICENSE](LICENSE) for details.
 
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-### 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-### 👤 Author
+### Author
 
 **Gabriel Demetrios Lafis**
 - GitHub: [@galafis](https://github.com/galafis)
@@ -109,92 +146,118 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## Português
+## Portugues
 
-### 🎯 Visão Geral
+### Visao Geral
 
-**Javascript Chat App** é uma aplicação HTML de nível profissional, complementada por CSS, JavaScript que demonstra práticas modernas de engenharia de software, incluindo arquitetura limpa, testes abrangentes, implantação containerizada e prontidão para CI/CD.
+Aplicacao de chat em tempo real que fornece mensagens instantaneas atraves de conexoes WebSocket. Inclui suporte a multiplas salas, gerenciamento de sessoes de usuarios, persistencia de mensagens, indicadores de digitacao e uma API REST para consulta de salas e usuarios.
 
-A base de código compreende **522 linhas** de código-fonte organizadas em **6 módulos**, seguindo as melhores práticas do setor para manutenibilidade, escalabilidade e qualidade de código.
-
-### ✨ Funcionalidades Principais
-
-- **📐 Clean Architecture**: Modular design with clear separation of concerns
-- **🧪 Test Coverage**: Unit and integration tests for reliability
-- **📚 Documentation**: Comprehensive inline documentation and examples
-- **🔧 Configuration**: Environment-based configuration management
-
-### 🏗️ Arquitetura
+### Arquitetura
 
 ```mermaid
 graph TB
-    subgraph Client["🖥️ Client Layer"]
-        A[Web Client]
-        B[API Documentation]
+    subgraph Camada Cliente
+        A[Navegador Web]
+        B[Cliente Socket.IO]
     end
-    
-    subgraph API["⚡ API Layer"]
-        C[Middleware Pipeline]
-        D[Route Handlers]
-        E[Business Logic]
+
+    subgraph Camada Servidor
+        C[Servidor HTTP Express.js]
+        D[Servidor WebSocket Socket.IO]
+        E[Rotas API REST]
     end
-    
-    subgraph Data["💾 Data Layer"]
-        F[(Primary Database)]
-        G[Cache]
+
+    subgraph Logica de Negocio
+        F[Gerenciador de Salas]
+        G[Gerenciador de Sessoes]
     end
-    
-    A --> C
-    B --> C
-    C --> D --> E
+
+    subgraph Armazenamento
+        H[Registro de Salas]
+        I[Sessoes de Usuarios]
+        J[Historico de Mensagens]
+    end
+
+    A --> B
+    B -->|WebSocket| D
+    A -->|HTTP| C
+    C --> E
+    D --> F
+    D --> G
     E --> F
     E --> G
-    
-    style Client fill:#e1f5fe
-    style API fill:#f3e5f5
-    style Data fill:#fff3e0
+    F --> H
+    F --> J
+    G --> I
+
+    style Camada Cliente fill:#e1f5fe
+    style Camada Servidor fill:#f3e5f5
+    style Logica de Negocio fill:#e8f5e9
+    style Armazenamento fill:#fff3e0
 ```
 
-### 🚀 Início Rápido
+### Funcionalidades
 
-#### Prerequisites
+- Mensagens em tempo real baseadas em WebSocket com Socket.IO
+- Suporte a chat com multiplas salas e criacao de salas
+- Registro de usuarios e gerenciamento de sessoes
+- Historico de mensagens com tamanho de buffer configuravel
+- Indicadores de digitacao para usuarios ativos
+- API REST para listagem de salas, consulta de usuarios e recuperacao de mensagens
+- Endpoint de verificacao de saude para monitoramento
+- Suporte a configuracao CORS
 
-#### Installation
+### Inicio Rapido
+
+#### Pre-requisitos
+
+- Node.js 18+
+- npm
+
+#### Instalacao
 
 ```bash
 git clone https://github.com/galafis/JavaScript-Chat-App.git
 cd JavaScript-Chat-App
+npm install
 ```
 
-### 📁 Estrutura do Projeto
+#### Execucao
+
+```bash
+# Desenvolvimento
+npm run dev
+
+# Producao
+npm start
+```
+
+### Estrutura do Projeto
 
 ```
 JavaScript-Chat-App/
-├── docs/          # Documentation
-│   └── script.js
-├── LICENSE
-├── README.md
-├── index.js
-└── package.json
+├── index.js           # Servidor principal com WebSocket
+├── index.html         # Pagina inicial
+├── public/            # Recursos estaticos
+├── docs/              # Documentacao
+├── examples/          # Exemplos de uso
+├── package.json
+└── README.md
 ```
 
-### 🛠️ Stack Tecnológica
+### Stack Tecnologica
 
-| Tecnologia | Descrição | Papel |
-|------------|-----------|-------|
-| **HTML** | Core Language | Primary |
-| JavaScript | 2 files | Supporting |
-| CSS | 1 files | Supporting |
+| Tecnologia | Finalidade |
+|------------|------------|
+| Node.js | Ambiente de execucao |
+| Express.js | Framework de servidor HTTP |
+| Socket.IO | Comunicacao WebSocket |
 
-### 🤝 Contribuindo
+### Licenca
 
-Contribuições são bem-vindas! Sinta-se à vontade para enviar um Pull Request.
+Licenca MIT - veja [LICENSE](LICENSE) para detalhes.
 
-### 📄 Licença
-
-Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
-
-### 👤 Autor
+### Autor
 
 **Gabriel Demetrios Lafis**
 - GitHub: [@galafis](https://github.com/galafis)
